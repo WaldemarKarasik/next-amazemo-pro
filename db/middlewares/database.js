@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import CategorySchema from "../schemas/CategorySchema";
 import ProductSchema from "../schemas/ProductSchema";
+import UserSchema from "../schemas/UserSchema";
 
 // const ProductSchema = new mongoose.Schema({
 //   name: { type: String, required: true, unique: true },
@@ -27,6 +28,11 @@ export default async function database(req, res, next) {
     req.category = mongoose.model("Category");
   } catch {
     req.category = mongoose.model("Category", CategorySchema);
+  }
+  try {
+    req.userModel = mongoose.model("User");
+  } catch {
+    req.userModel = mongoose.model("User", UserSchema);
   }
 
   if (mongoose.connections[0].readyState) {
