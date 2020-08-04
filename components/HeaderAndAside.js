@@ -1,26 +1,32 @@
 import Link from "next/link";
 import { useSelector } from "react-redux";
+import { Drawer } from "antd";
+import { CloseOutlined } from "@ant-design/icons";
+import { useRouter } from "next/router";
+
 export default function HeaderAndAside() {
   const asideRef = React.useRef();
+  const router = useRouter();
   // const cartItems = useSelector((state) => state.cart.cartItems);
+  const [visible, setVisible] = React.useState(false);
+  // console.log(session);
+  // const openMenu = () => {
+  //   asideRef.current.classList.add("open");
+  // };
+  // const closeMenu = () => {
+  //   asideRef.current.classList.remove("open");
+  // };
 
-  const openMenu = () => {
-    asideRef.current.classList.add("open");
-  };
-  const closeMenu = () => {
-    asideRef.current.classList.remove("open");
-  };
-
-  React.useEffect(() => {
-    document.addEventListener("click", function (e) {
-      if (
-        !asideRef.current.contains(e.target) &&
-        !e.target.classList.contains("hamburger")
-      ) {
-        closeMenu();
-      }
-    });
-  }, []);
+  // React.useEffect(() => {
+  //   document.addEventListener("click", function (e) {
+  //     if (
+  //       !asideRef.current.contains(e.target) &&
+  //       !e.target.classList.contains("hamburger")
+  //     ) {
+  //       closeMenu();
+  //     }
+  //   });
+  // }, []);
 
   return (
     <>
@@ -30,7 +36,7 @@ export default function HeaderAndAside() {
           style={{ display: "flex", alignItems: "center" }}
         >
           <div>
-            <button className="hamburger" onClick={openMenu}>
+            <button className="hamburger" onClick={() => setVisible(true)}>
               &#9776;
             </button>
           </div>
@@ -47,13 +53,11 @@ export default function HeaderAndAside() {
               </span> */}
             </a>
           </Link>
-          <Link href="/signin">
-            <a>Войти</a>
-          </Link>
+
+          <a onClick={() => router.push("/auth/signin")}>Войти</a>
         </div>
       </header>
-      <aside ref={asideRef} className="sidebar">
-        {/* <h3>Shopping Categories</h3> */}
+      {/* <aside ref={asideRef} className="sidebar">
         <button className="sidebar-close-button" onClick={closeMenu}>
           &times;
         </button>
@@ -65,7 +69,19 @@ export default function HeaderAndAside() {
             <a href="#">Shirts</a>
           </li>
         </ul>
-      </aside>
+      </aside> */}
+      <Drawer
+        title="Categories"
+        placement="left"
+        closable={true}
+        onClose={() => setVisible(false)}
+        visible={visible}
+        closeIcon={<CloseOutlined className="drawer__close-icon" />}
+      >
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Drawer>
     </>
   );
 }

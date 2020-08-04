@@ -42,6 +42,10 @@ body {
   margin-right: 1rem;
 }
 
+.drawer__close-icon:hover {
+  color: red;
+}
+
 .header-links a:hover {
   color: #ff8000;
 }
@@ -311,20 +315,20 @@ a:hover {
 
 /* Cart End  */
 
-.cart {
+/* .cart {
   display: flex;
   flex-wrap: wrap;
   margin: 1rem;
   align-items: flex-start;
-}
+} */
 
-@media screen and (max-width: 830px) {
-  .cart {
-    /* display: block; */
-  }
-}
+/* @media screen and (max-width: 830px) { */
+/* .cart { */
+/* display: block; */
+/* }
+} */
 
-.cart__list {
+/* .cart__list {
   flex: 3 1 60rem;
 }
 .cart__action {
@@ -354,24 +358,24 @@ a:hover {
   margin-left: 1rem;
   /* flex-wrap: wrap;
   justify-content: flex-start; */
-  flex-direction: column;
+/* flex-direction: column;
   justify-content: flex-start;
-}
+} */
 
 /* .cart__list__product-info__name {
   margin-bottom: 1rem;
 } */
 
-.cart__list__item__image__container div {
+/* .cart__list__item__image__container div {
   margin-bottom: 1rem;
 }
 
 .cart__list__item {
   display: flex;
   justify-content: space-between;
-}
+} */
 
-.cart__list__container li:first-child {
+/* .cart__list__container li:first-child {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -382,7 +386,7 @@ a:hover {
 }
 
 .button.danger {
-}
+} */
 /* .cart__list__container li:not(:first-child) {
   border: 0.1rem solid black;
 } */

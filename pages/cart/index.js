@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Cookie from "js-cookie";
+import { Button, Popconfirm } from "antd";
 
 export async function getServerSideProps({ query, req, res }) {
   const { id } = query;
@@ -52,97 +53,44 @@ const Cart = ({ data }) => {
   };
 
   return (
-    <>
-      {cartItems.length == 0 ? (
-        <h3>Корзина пуста</h3>
-      ) : (
-        <div className="cart">
-          <div className="cart__list">
-            <ul className="cart__list__container">
-              <li>
-                <h3 style={{ margin: 0, padding: 0 }}>Корзина</h3>
-                <div>Цена</div>
-              </li>
-              {cartItems.map((item) => (
-                <li key={item.product}>
-                  <div className="cart__list__item" key={item.product}>
-                    <div className="cart__list__item__image__container">
-                      <img src={item.image} />
-                      <div className="cart__list__product-info">
-                        <div className="cart__list__product-info__name">
-                          <Link
-                            href="/products/[id]"
-                            as={`/products/${item.product}`}
-                          >
-                            <a>{item.name}</a>
-                          </Link>
-                        </div>
-                        <div className="cart__list__product-info__qty">
-                          Кол-во:
-                          <select
-                            value={item.qty}
-                            onChange={(e) => {
-                              item.qty = parseInt(e.target.value, 10);
-                              dispatch({
-                                type: "CLIENT_ADD_TO_CART",
-                                payload: item,
-                              });
-                            }}
-                          >
-                            {[...Array(item.countInStock).keys()].map((x) => (
-                              <option key={x + 1} value={x + 1}>
-                                {x + 1}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                        <div className="cart__list__product-info__delete">
-                          <button
-                            onClick={() =>
-                              dispatch({
-                                type: "CLIENT_REMOVE_FROM_CART",
-                                payload: item.product,
-                              })
-                            }
-                          >
-                            Убрать
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="product-price">{item.price}&#8381;</div>
+    <div className="cart">
+      <div className="cart-items__container">
+        <ul>
+          {cartItems.map((product) => (
+            <>
+              <li className="cart-items__item">
+                <div className="cart-items__item__image__container">
+                  <img
+                    src={product.image}
+                    className="cart-items__item__image__item"
+                  ></img>
+                </div>
+                <div className="cart-items__item__info">
+                  <div className="cart-items__item__name">{product.name}</div>
+                  <div className="cart-items__item__price">
+                    <h4>{product.price}&#8381;</h4>
                   </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="cart__action">
-            {cartItems.length ? (
-              <>
-                <h3>
-                  Итого ({cartItems.reduce((acc, item) => acc + item.qty, 0)}
-                  {" предметов"}
-                  ):
-                  {cartItems.reduce(
-                    (acc, item) => acc + item.price * item.qty,
-                    0
-                  )}
-                  &#8381;
-                </h3>
-                <button
-                  disabled={cartItems.length == 0}
-                  className="button primary"
-                  onClick={checkOutHandler}
-                >
-                  Продолжить покупку
-                </button>
-              </>
-            ) : null}
-          </div>
+                </div>
+              </li>
+            </>
+          ))}
+        </ul>
+      </div>
+      <div className="cart-items__action">
+        <div>
+          <h3>
+            Итого ({cartItems.reduce((acc, item) => acc + item.qty, 0)}
+            {" предметов"}
+            ):
+            {cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)}
+            &#8381;
+          </h3>
         </div>
-      )}
-    </>
+        <div className="cart-items__action__button-container">
+          <button className="button primary">Оформить заказ</button>
+        </div>
+      </div>
+    </div>
   );
 };
 

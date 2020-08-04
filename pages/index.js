@@ -5,7 +5,7 @@ import { wrapper } from "../store/store";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-const Home = () => {
+const Home = ({ session }) => {
   const router = useRouter();
   // const products = [...data];
   const dispatch = useDispatch();
@@ -69,11 +69,9 @@ const Home = () => {
 //   store.dispatch(addCount())
 // })
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  async ({ store }) => {
-    const { data } = await Axios.get("http://localhost:3000/api/products");
-    store.dispatch({ type: "PRODUCTS_LOADED", payload: data });
-  }
-);
+export const getServerSideProps = wrapper.getServerSideProps(async (ctx) => {
+  const { data } = await Axios.get("http://localhost:3000/api/products");
+  ctx.store.dispatch({ type: "PRODUCTS_LOADED", payload: data });
+});
 
 export default Home;
