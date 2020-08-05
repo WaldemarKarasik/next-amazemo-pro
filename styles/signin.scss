@@ -1,0 +1,12 @@
+.grid-wrapper {
+  display: grid;
+  height: 100%;
+  grid-template-columns: 410px 5fr;
+  .form-wrapper {
+    grid-column: 1 / 2;
+    padding: 50px 0px 0px 42px;
+    form {
+    }
+  }
+  @import "signin-image.scss";
+}

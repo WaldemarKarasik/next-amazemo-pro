@@ -4,8 +4,7 @@ import middleware from "../../db/middlewares";
 
 const handler = nextConnect();
 
-handler.use(middleware);
-handler.get(async (req, res) => {
+handler.use(middleware).get(async (req, res) => {
   if (req.query.id) {
     // const product = data.products.find((x) => x._id == req.query.id);
     const product = await req.product.findOne({ _id: req.query.id }).lean();
@@ -13,8 +12,9 @@ handler.get(async (req, res) => {
       return res.json(product);
     }
   }
-
   const products = await req.product.find().populate("category").lean();
+  req.session.set("user", { email: "komsomol" });
+  await req.session.save();
   return res.json(products);
 });
 export default handler;

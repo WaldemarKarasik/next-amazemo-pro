@@ -17,16 +17,12 @@ export default function HeaderAndAside() {
   //   asideRef.current.classList.remove("open");
   // };
 
-  // React.useEffect(() => {
-  //   document.addEventListener("click", function (e) {
-  //     if (
-  //       !asideRef.current.contains(e.target) &&
-  //       !e.target.classList.contains("hamburger")
-  //     ) {
-  //       closeMenu();
-  //     }
-  //   });
-  // }, []);
+  React.useEffect(() => {
+    // async function checkMe() {
+    //   const { data } = await Axios.get(`/api/auth/me`);
+    // }
+    // checkMe();
+  }, []);
 
   return (
     <>
@@ -54,7 +50,9 @@ export default function HeaderAndAside() {
             </a>
           </Link>
 
-          <a onClick={() => router.push("/auth/signin")}>Войти</a>
+          <Link href="/auth/signin">
+            <a>Войти</a>
+          </Link>
         </div>
       </header>
       {/* <aside ref={asideRef} className="sidebar">

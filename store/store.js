@@ -6,6 +6,7 @@ import tick from "./tick/reducer";
 import products from "./products/reducer";
 import productDetails from "./productDetails/reducer";
 import cart from "./cart/reducer";
+import user from "./user/reducer";
 import { some, isEmpty } from "lodash";
 import Cookie from "js-cookie";
 
@@ -23,6 +24,7 @@ const combinedReducer = combineReducers({
   products,
   productDetails,
   cart,
+  user,
 });
 
 const reducer = (state, action) => {
@@ -36,6 +38,7 @@ const reducer = (state, action) => {
 
     if (state.cart.cartItems.length)
       nextState.cart.cartItems = state.cart.cartItems;
+    if (!isEmpty(state.user.user)) nextState.user = state.user;
     return nextState;
   } else {
     return combinedReducer(state, action);
