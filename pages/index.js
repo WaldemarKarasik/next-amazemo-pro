@@ -4,29 +4,12 @@ import Link from "next/link";
 import { wrapper } from "../store/store";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import withSession from "../hoc/withSession";
 import { withIronSession, applySession } from "next-iron-session";
 import { isEmpty } from "lodash";
 const Home = ({ session }) => {
   const router = useRouter();
   // const products = [...data];
-  const dispatch = useDispatch();
   const products = useSelector((state) => state.products.products);
-  useEffect(() => {
-    // async function signIn() {
-    //   const { data: UserData } = await Axios.post(`/api/auth/signin`, {
-    //     email: "gachimuchi@gmail.com",
-    //     password: "rootroot",
-    //   });
-    //   console.log(UserData);
-    // }
-    // async function checkMe() {
-    //   const { data } = await Axios.get(`/api/auth/me`);
-    //   console.log(data);
-    // }
-    // // signIn();
-    // checkMe();
-  }, []);
   return (
     <main className="main">
       <div className="content">
@@ -88,39 +71,22 @@ const Home = ({ session }) => {
 export const getServerSideProps = withIronSession(
   wrapper.getServerSideProps(async (ctx) => {
     const { data } = await Axios.get(`${process.env.BASE_URL}/api/products`);
-    // const { data: UserData } = await Axios.post(
-    //   `${process.env.BASE_URL}/api/auth/signin`,
-    //   {
-    //     email: "gachimuchi@gmail.com",
-    //     password: "rootroot",
-    //   }
-    // );
-    // const { data: userResponse } = await Axios.get(
-    //   `${process.env.BASE_URL}/api/auth/me`
-    // );
     if (!isEmpty(ctx.req.session.get("user"))) {
       ctx.store.dispatch({
         type: "LOGIN_USER",
         payload: ctx.req.session.get("user"),
       });
     }
+    const { data: categories } = await Axios.get(
+      `${process.env.BASE_URL}/api/categories`
+    );
     ctx.store.dispatch({ type: "PRODUCTS_LOADED", payload: data });
+    ctx.store.dispatch({ type: "SET_CATEGORIES", payload: categories });
   }),
   {
     password: process.env.SECRET_COOKIE_PASSWORD,
     cookieName: "amazemo-session",
   }
 );
-// export const getServerSideProps = async function ({ req, res }) {
-//   // const user = req.session.get("user");
-//   await applySession(req, res, {
-//     password: process.env.SECRET_COOKIE_PASSWORD,
-//     cookieName: "amazemo-session",
-//   });
-//   console.log(req.session.get());
-//   return {
-//     props: { user: {} },
-//   };
-// };
 
 export default Home;

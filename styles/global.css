@@ -158,8 +158,8 @@ a:hover {
 
 .product-image {
   cursor: pointer;
-  max-width: 25rem;
-  max-height: 34rem;
+  width: 20rem;
+  height: 100%;
 }
 
 /* Sidebar */

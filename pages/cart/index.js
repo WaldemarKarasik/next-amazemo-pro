@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Cookie from "js-cookie";
-import { Button, Popconfirm } from "antd";
+import { Button, Popconfirm, Empty, Row, Col, Typography } from "antd";
 
 export async function getServerSideProps({ query, req, res }) {
   const { id } = query;
@@ -53,44 +53,63 @@ const Cart = ({ data }) => {
   };
 
   return (
-    <div className="cart">
-      <div className="cart-items__container">
-        <ul>
-          {cartItems.map((product) => (
-            <>
-              <li className="cart-items__item">
-                <div className="cart-items__item__image__container">
-                  <img
-                    src={product.image}
-                    className="cart-items__item__image__item"
-                  ></img>
-                </div>
-                <div className="cart-items__item__info">
-                  <div className="cart-items__item__name">{product.name}</div>
-                  <div className="cart-items__item__price">
-                    <h4>{product.price}&#8381;</h4>
-                  </div>
-                </div>
-              </li>
-            </>
-          ))}
-        </ul>
-      </div>
-      <div className="cart-items__action">
-        <div>
-          <h3>
-            Итого ({cartItems.reduce((acc, item) => acc + item.qty, 0)}
-            {" предметов"}
-            ):
-            {cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)}
-            &#8381;
-          </h3>
+    <>
+      {cartItems.length ? (
+        <div className="cart">
+          <div className="cart-items__container">
+            <ul>
+              {cartItems.map((product) => (
+                <>
+                  <li className="cart-items__item">
+                    <div className="cart-items__item__image__container">
+                      <img
+                        src={product.image}
+                        className="cart-items__item__image__item"
+                      ></img>
+                    </div>
+                    <div className="cart-items__item__info">
+                      <div className="cart-items__item__name">
+                        {product.name}
+                      </div>
+                      <div className="cart-items__item__price">
+                        <h4>{product.price}&#8381;</h4>
+                      </div>
+                    </div>
+                  </li>
+                </>
+              ))}
+            </ul>
+          </div>
+          <div className="cart-items__action">
+            <div>
+              <h3>
+                Итого ({cartItems.reduce((acc, item) => acc + item.qty, 0)}
+                {" предметов"}
+                ):
+                {cartItems.reduce(
+                  (acc, item) => acc + item.price * item.qty,
+                  0
+                )}
+                &#8381;
+              </h3>
+            </div>
+            <div className="cart-items__action__button-container">
+              <button className="button primary">Оформить заказ</button>
+            </div>
+          </div>
         </div>
-        <div className="cart-items__action__button-container">
-          <button className="button primary">Оформить заказ</button>
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Empty description="Корзина пуста" />
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

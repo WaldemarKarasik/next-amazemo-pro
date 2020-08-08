@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useSelector } from "react-redux";
-import { Drawer } from "antd";
+import { Drawer, Typography, Badge } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 
@@ -9,21 +9,9 @@ export default function HeaderAndAside() {
   const router = useRouter();
   // const cartItems = useSelector((state) => state.cart.cartItems);
   const [visible, setVisible] = React.useState(false);
-  // console.log(session);
-  // const openMenu = () => {
-  //   asideRef.current.classList.add("open");
-  // };
-  // const closeMenu = () => {
-  //   asideRef.current.classList.remove("open");
-  // };
+  const categories = useSelector((state) => state.categories.categories);
 
-  React.useEffect(() => {
-    // async function checkMe() {
-    //   const { data } = await Axios.get(`/api/auth/me`);
-    // }
-    // checkMe();
-  }, []);
-
+  // console.log(categories);
   return (
     <>
       <header className="header">
@@ -69,16 +57,36 @@ export default function HeaderAndAside() {
         </ul>
       </aside> */}
       <Drawer
-        title="Categories"
+        title="Выбрать категорию"
         placement="left"
         closable={true}
         onClose={() => setVisible(false)}
         visible={visible}
         closeIcon={<CloseOutlined className="drawer__close-icon" />}
       >
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+        <div className="categories-list__wrapper">
+          <ul className="categories-list__ul">
+            {categories.map((category) => (
+              <li key={category.name} className="categories-list__item">
+                <Link
+                  href="/category/[name]"
+                  as={`/category/${category.name.toLowerCase()}`}
+                >
+                  <a>
+                    <Badge
+                      count={Object.keys(category.products).length}
+                      showZero
+                    >
+                      <Typography.Title level={4}>
+                        {category.name}
+                      </Typography.Title>
+                    </Badge>
+                  </a>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </Drawer>
     </>
   );

@@ -12,9 +12,10 @@ handler.use(middleware).get(async (req, res) => {
       return res.json(product);
     }
   }
-  const products = await req.product.find().populate("category").lean();
-  req.session.set("user", { email: "komsomol" });
-  await req.session.save();
+  const products = await req.product
+    .find()
+    .populate({ path: "category", populate: { path: "products" } })
+    .lean();
   return res.json(products);
 });
 export default handler;
